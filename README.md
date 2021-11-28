@@ -19,40 +19,42 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly available, in addition to restricting access to the network.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the docker containers and system files.
 
 The configuration details of each machine may be found below.
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.1.0.4   | Linux            |
+| Jump Box | Gateway  | 10.1.0.4 / 29.211.83.226  | Linux            |
 | VM1      | DVWA Webserver | 10.1.0.5 |  Linux      |
 | VM2      | DVWA Webserver | 10.1.0.6   |Linux       |
 | VM3      | DVWA Webserver | 10.1.0.9    |Linux      |
-| ELK      | ELK Stack Server | 10.2.0.4  |Linux      |
+| ELK      | ELK Stack Server | 10.2.0.4 / 52.255.60.217  |Linux      |
+| Load Balancer | DVWA Webserver Balancer| 20.92.107.21| N/A|
 
 ### Access Policies
 
-The machines on the internal network are not exposed to the public Internet. 
+The DVWA Web Servers on the internal network are not exposed to the public Internet. They are part of the back end pool of Virtual Machines being managed by a public facing load balancer.
 
-Only the Jumpbox and the ELK Virtuals machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+Only the Jumpbox and the ELK Virtuals machine can accept connections from the Internet. In order to make external access easier the public facing machines (Jumpbox, Load Balancer and ELK Stack) all have static IPs which are listed in the table above next to the internal network IP.
 
-- Home IP Address of Andrew Hurba (220.235.xxx.xxx)
+Machines within the network can only be accessed by the Jumpbox (10.1.0.4) via SSH port 22 only.
 
-Machines within the network can only be accessed by the Jumpbox (10.1.0.4). From the Jumpbox only SSH port 22 can be used to access the other VMs.
+Therefore the list of inbound rules setup to allow this configuration are (note 220.235.xxx.xxx is the IP address of the Author - Andrew Hurba);
 
-A summary of the access policies in place can be found in the table below.
+| Name     | Ports Alowed | Inbound IP Addresses | Purpose |
+|----------|---------------------|----------------------|------------|
+| JumpBox | 22             | 220.235.xxx.xxx   | Allow external SSH access to the jumpbox
+| SSH from Jumpbox | 22 | 10.1.0.4 | Allow internal SSH access from jumpbox to VMs
+| ELK | 5601 | 220.235.xxx.xxx | Allow external access to Kibana |
+| DVWA | 80 | 220.235.xxx.xxx | Allow external access through Load Balancer to DVWA|
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes              | 220.235.xxx.xxx   |
-|  ELK Stack        | Yes    | 220.235.xxx.xxx          |
-|          |                     |                      |
+Whilst this is a robust setup in terms of access management, it relies solely on a single IP listing for external access. Any additional access will require a rule update. Also whilst the Authors NBN connection has a fairly 'sticky' IP if it changes access will be denied. A VPN would be preferrable for a longer term solution.
+
+In terms of SSH management, to add another layer of security, the VMs were setup with the public key of azureuser whose private keys reside on the PC of the author.
+
 
 ### Elk Configuration
 
@@ -73,11 +75,10 @@ The following screenshot displays the result of running `docker ps` after succes
 ![ELK Container Running](Diagrams/ELKDockerRunning.png)
 
 ### Target Machines & Beats
-This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+This ELK server is configured to monitor the following machines via the webservers group created in the Ansible Hosts file. This is shown below
+![Ansible Webserver Host group](Diagrams/AnsibleHostFile.png)
 
-We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+In addition two other playbooks were created to install [MetricBeat](Ansible/MetricBeatInstallPlaybook.yml) and [FileBeat](Ansible/FileBeatInstallPlaybook.yml)
 
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
@@ -87,12 +88,11 @@ In order to use the playbook, you will need to have an Ansible control node alre
 
 SSH into the control node and follow the steps below:
 - Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Update the hosts file to include the IP addresses of the VMs you wish to install Beats on, as shown above.
+- Run the playbook, and navigate to http://[Your ELK IP]:5601/app/kibana#/home to check that the installation worked as expected.
 
 _TODO: Answer the following questions to fill in the blanks:_
 - _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
