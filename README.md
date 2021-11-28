@@ -4,10 +4,10 @@ The files in this repository were used to configure the network depicted below.
 
 ![Network Diagram](Diagrams/ELKStackVMDiagram.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the playbook files may be used to install only certain pieces of it, such as Filebeat.
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -27,46 +27,50 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - _TODO: What does Metricbeat record?_
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Jump Box | Gateway  | 10.1.0.4   | Linux            |
+| VM1      | DVWA Webserver | 10.1.0.5 |  Linux      |
+| VM2      | DVWA Webserver | 10.1.0.6   |Linux       |
+| VM3      | DVWA Webserver | 10.1.0.9    |Linux      |
+| ELK      | ELK Stack Server | 10.2.0.4  |Linux      |
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Jumpbox and the ELK Virtuals machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+- Home IP Address of Andrew Hurba (220.235.xxx.xxx)
+
+Machines within the network can only be accessed by the Jumpbox (10.1.0.4). From the Jumpbox only SSH port 22 can be used to access the other VMs.
 
 A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses |
 |----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
+| Jump Box | Yes              | 220.235.xxx.xxx   |
+|  ELK Stack        | Yes    | 220.235.xxx.xxx          |
 |          |                     |                      |
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because we can be assured that the installation will work in exactly the way it is intended. In addition this type of automation is scaleable.
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+The [ELK Playbook](Ansible/ELKInstallPlaybook.yml) performs a number of tasks.
+
+- The ELK server is initially defined within the Ansible Hosts File and this IP address is used to execute the following steps
+- Docker.io is installed
+- Python Package installer is installed
+- PIP Docker module installed
+- Virtual Memory increased and used
+- ELK Container downloaded and launched on the ELK server and then set to start on reboot.
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![ELK Container Running](Diagrams/ELKDockerRunning.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
