@@ -51,7 +51,7 @@ Therefore the list of inbound rules setup to allow this configuration are (note 
 | ELK | 5601 | 220.235.xxx.xxx | Allow external access to Kibana |
 | DVWA | 80 | 220.235.xxx.xxx | Allow external access through Load Balancer to DVWA|
 
-Whilst this is a robust setup in terms of access management, it relies solely on a single IP listing for external access. Any additional access will require a rule update. Also whilst the Authors NBN connection has a fairly 'sticky' IP if it changes access will be denied. A VPN would be preferrable for a longer term solution.
+Whilst this is a robust setup in terms of access management, it relies solely on a single IP white listing for external access. Any additional access will require a rule update. Also whilst the Authors NBN connection has a fairly 'sticky' IP, if it changes access will be denied. A VPN would be preferrable for a longer term solution.
 
 In terms of SSH management, to add another layer of security, the VMs were setup with the public key of azureuser whose private keys reside on the PC of the author.
 
@@ -69,6 +69,8 @@ The [ELK Playbook](Ansible/ELKInstallPlaybook.yml) performs a number of tasks.
 - PIP Docker module installed
 - Virtual Memory increased and used
 - ELK Container downloaded and launched on the ELK server and then set to start on reboot.
+
+For full details of the creation of the Docker containers and the installation of the ELK stack click here [ELK Stack, MetricBeats and FileBeats installations Steps](InstallDetailsREADME.md)
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
