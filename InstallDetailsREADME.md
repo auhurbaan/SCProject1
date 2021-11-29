@@ -21,7 +21,7 @@
         10.1.0.9 ansible_python_interpreter=/usr/bin/python3
 
 7. Then execute the [ELK Playbook YAML](Ansible/ELKInstallPlaybook.yml) by navigating to the directory with the playbook and using 'ansible-playbook [ELK Install PLaybook Name]. The final result should look like below.
-![Success](Diagrams/ELKPLaybookInstall.png)
+![Success](Diagrams/ELKPlaybookInstall.png)
  8. Then to install both MetricBeats and FileBeats we first need to save the two configuration files to the /etc/ansible/files directory [File Beats Configuration File](Ansible/filebeat-config.yml) and [Metric Beats Configuration File](Ansible/metricbeat-config.yml).
  9. Both these files have to be modified so that the Hosts IP address refer to the IP address of the ELK Stack VM created.
 10. Then the following Playbooks can be installed via the ansible-playbook command [FileBeat Playbook](/Ansible/FileBeatInstallPlaybook.yml) and [MetricBeat Playbook](Ansible/MetricBeatInstallPlaybook.yml)

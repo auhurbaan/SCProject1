@@ -70,7 +70,6 @@ The [ELK Playbook](Ansible/ELKInstallPlaybook.yml) performs a number of tasks.
 - Virtual Memory increased and used
 - ELK Container downloaded and launched on the ELK server and then set to start on reboot.
 
-For full details of the creation of the Docker containers and the installation of the ELK stack click here [ELK Stack, MetricBeats and FileBeats installations Steps](InstallDetailsREADME.md)
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
@@ -83,18 +82,22 @@ This ELK server is configured to monitor the following machines via the webserve
 In addition two other playbooks were created to install [MetricBeat](Ansible/MetricBeatInstallPlaybook.yml) and [FileBeat](Ansible/FileBeatInstallPlaybook.yml)
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+
+**Metric Beats**
+
+Allows the collection of system level CPU, Memory, File System, Network I/O as well as all top line processes on the System.
+
+In the case of our installation we are installing the Docker Module so that our Docker containers can be monitored.
+
+![MetricBeat](Diagrams/MetricBeatImage.png)
+
+**File Beats**
+
+Filebeats manages all files and system logs.
+
+![FileBeat](Diagrams/FileBeatImage.png)
 
 ### Using the Playbook
-In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
+In order to use the playbook, you will need to have an Ansible control node already configured. 
 
-SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the hosts file to include the IP addresses of the VMs you wish to install Beats on, as shown above.
-- Run the playbook, and navigate to http://[Your ELK IP]:5601/app/kibana#/home to check that the installation worked as expected.
-
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-
-
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+For full details of the creation of the Docker containers and the installation of the ELK stack click here [ELK Stack, MetricBeats and FileBeats installations Steps](InstallDetailsREADME.md)
