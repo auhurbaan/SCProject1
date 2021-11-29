@@ -101,3 +101,11 @@ Filebeats manages all files and system logs.
 In order to use the playbook, you will need to have an Ansible control node already configured. 
 
 For full details of the creation of the Docker containers and the installation of the ELK stack click here [ELK Stack, MetricBeats and FileBeats installations Steps](InstallDetailsREADME.md)
+
+### Stress Testing with Ansible ###
+
+Lastly, during the testing of Kibana, one of the tests to carry out was a Stress Test on the VMs to ensure MetricBeat is picking up the high CPU usage. With three VMs this meant individually running Stress to see the CPU impact. Obviously this is tedious with three machines and gets far worse with each addition. Anisble can be used to simultaneously run stress across multiple machines. [This is the stress playbook](/Ansible/StartStress.yml)
+
+This then produces a result of three VM's having high CPU usage at the same time.
+
+![MetricBeatStress](Diagrams/MetricBeatStress.png)

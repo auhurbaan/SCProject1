@@ -1,0 +1,8 @@
+---
+- name: starting stress
+  hosts: webservers
+  become: yes
+  tasks:
+
+  - name: start stress
+    command: stress --cpu 1 --timeout 30
